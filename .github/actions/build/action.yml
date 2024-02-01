@@ -7,9 +7,6 @@ inputs:
   INCREMENT_VERSION_NUMBER:
     required: true
     description: Increment version number
-  NODE_VERSION:
-    required: true
-    description: Node version to use
 outputs: {}
 runs:
   using: 'composite'
