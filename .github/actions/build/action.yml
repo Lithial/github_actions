@@ -1,0 +1,48 @@
+name: Build
+description: This action builds a yarn project with the option to increment the version number if required
+inputs:
+  GITHUB_TOKEN:
+    required: true
+    description: Token for GitHub
+  INCREMENT_VERSION_NUMBER:
+    required: true
+    description: Increment version number
+outputs: {}
+runs:
+  using: 'composite'
+  steps:
+    - uses: ./.github/actions/setup
+      name: Setup Project
+      with:
+        node-version: '20'
+
+    - name: Extract branch name
+      shell: bash
+      run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+      id: extract_branch
+
+    - name: 'Automated Version Bump'
+      uses: 'phips28/gh-action-bump-version@master'
+      if: ${{ inputs.INCREMENT_VERSION_NUMBER == 'true' }}
+      env:
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+      with:
+        minor-wording: 'feat,add,Adds,new'
+        major-wording: 'MAJOR,cut-major'
+        patch-wording: 'patch,fixes,fix'     # Providing patch-wording will override commits
+        # defaulting to a patch bump.
+        rc-wording: 'RELEASE,alpha'
+
+    - name: Commit & Push
+      uses: Andro999b/push@v1.3
+      if: ${{ inputs.INCREMENT_VERSION_NUMBER == 'true' }}
+      with:
+        github_token: ${{ inputs.GITHUB_TOKEN }}
+        branch: ${{ steps.extract_branch.outputs.branch }}
+        force: true
+        message: 'Version increased by Github Actions'
+
+    - name: Build Project
+      shell: bash
+      run: yarn build
+

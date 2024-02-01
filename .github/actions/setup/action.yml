@@ -1,0 +1,25 @@
+name: Setup
+description: This action sets up node and installs dependencies for a yarn project
+inputs:
+  node-version:
+    required: true
+    description: Version of node to install
+
+outputs: {}
+runs:
+  using: 'composite'
+  steps:
+    - name: Enable Corepack
+      shell: bash
+      run: corepack enable
+
+    - name: Setup Node ${{ inputs.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: yarn
+        registry-url: https://npm.pkg.github.com/
+
+    - name: Install Dependencies
+      shell: bash
+      run: yarn install --immutable

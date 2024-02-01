@@ -1,0 +1,43 @@
+name: Write Changelog
+description: This action writes the title, body and version of a pr to a changelog file
+inputs:
+  PR_BODY:
+    required: true
+    description: Body from the PR
+  PR_TITLE:
+    required: true
+    description: Body from the PR
+  GITHUB_TOKEN:
+    required: true
+    description: Github secret token
+  CHANGELOG_FILE:
+    required: true
+    description: File to append to
+outputs: {}
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: get-npm-version
+      id: package-version
+      uses: martinbeentjes/npm-get-version-action@v1.3.1
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        architecture: "x64"
+        python-version: "3.10"  # You can change the Python version as needed
+
+    - name: Write Changelog to File
+      shell: bash
+      run: python ./.github/scripts/append_to_file.py "${{ inputs.PR_TITLE }}" "${{ inputs.PR_BODY }}" "${{ steps.package-version.outputs.current-version }}" "${{ inputs.CHANGELOG_FILE }}"
+
+    - name: Commit & Push
+      uses: Andro999b/push@v1.3
+      with:
+        github_token: ${{ inputs.GITHUB_TOKEN }}
+        branch: main
+        force: true
+        message: 'Changelog updated by Github Actions'
