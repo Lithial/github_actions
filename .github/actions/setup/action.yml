@@ -4,7 +4,9 @@ inputs:
   NODE_VERSION:
     required: true
     description: Version of node to install
-
+  GH_PRIVATE_NPM_TOKEN:
+    required: true
+    description: Token for GitHub Package Registry
 outputs: {}
 runs:
   using: 'composite'
@@ -19,7 +21,10 @@ runs:
         node-version: ${{ inputs.NODE_VERSION }}
         cache: yarn
         registry-url: https://npm.pkg.github.com/
+        scope: '@circles-learning-labs'
 
     - name: Install Dependencies
       shell: bash
       run: yarn install --immutable
+      env:
+        NODE_AUTH_TOKEN: ${{ input.GH_PRIVATE_NPM_TOKEN }}
