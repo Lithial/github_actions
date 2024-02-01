@@ -9,7 +9,7 @@ All actions require a setup step to be run first. This action well allow them to
 ``- uses: actions/checkout@v4 # Necessary to access local action``
 
 ```yml
-    - uses: circles-learning-labs/github_actions/.github/actions/setup
+    - uses: Lithial/github_actions/.github/actions/setup
       name: Setup Project
       with:
         NODE_VERSION: '20' # The node version to use
@@ -18,7 +18,7 @@ All actions require a setup step to be run first. This action well allow them to
 - Build
 ```yml
 
-      - uses: circles-learning-labs/github_actions/.github/actions/build
+      - uses: Lithial/github_actions/.github/actions/build
         name: Build Project
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # The github secret token for pushing new build numbers to the branch
@@ -27,7 +27,7 @@ All actions require a setup step to be run first. This action well allow them to
 
 - Write Changelog
 ```yml
-      - uses: circles-learning-labs/github_actions/.github/actions/write-changelog
+      - uses: Lithial/github_actions/.github/actions/write-changelog
         name: Write Changelog
         with:
           PR_TITLE: ${{ github.event.pull_request.title }} # The title of the pull request
