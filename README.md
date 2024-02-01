@@ -12,7 +12,7 @@ All actions require a setup step to be run first. This action well allow them to
     - uses: circles-learning-labs/github_actions/.github/actions/setup
       name: Setup Project
       with:
-        node-version: '20'
+        NODE_VERSION: '20' # The node version to use
 ```
 
 - Build
@@ -23,6 +23,7 @@ All actions require a setup step to be run first. This action well allow them to
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # The github secret token for pushing new build numbers to the branch
           INCREMENT_VERSION_NUMBER: false # Whether or not to increment the version number or not
+          NODE_VERSION: "20" # The node version to use
 ```
 
 - Write Changelog

@@ -1,7 +1,7 @@
 name: Setup
 description: This action sets up node and installs dependencies for a yarn project
 inputs:
-  node-version:
+  NODE_VERSION:
     required: true
     description: Version of node to install
 
@@ -13,10 +13,10 @@ runs:
       shell: bash
       run: corepack enable
 
-    - name: Setup Node ${{ inputs.node-version }}
+    - name: Setup Node ${{ inputs.NODE_VERSION}}
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ inputs.node-version }}
+        node-version: ${{ inputs.NODE_VERSION }}
         cache: yarn
         registry-url: https://npm.pkg.github.com/
 

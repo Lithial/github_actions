@@ -7,14 +7,17 @@ inputs:
   INCREMENT_VERSION_NUMBER:
     required: true
     description: Increment version number
+  NODE_VERSION:
+    required: true
+    description: Node version to use
 outputs: {}
 runs:
   using: 'composite'
   steps:
-    - uses: ./.github/actions/setup
+    - uses: Lithial/github_actions/.github/actions/setup
       name: Setup Project
       with:
-        node-version: '20'
+        node-version: NODE_VERSION
 
     - name: Extract branch name
       shell: bash
