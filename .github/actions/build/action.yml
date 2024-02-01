@@ -28,7 +28,7 @@ runs:
 
     - name: 'Automated Version Bump'
       uses: 'phips28/gh-action-bump-version@master'
-      if: ${{ inputs.INCREMENT_VERSION_NUMBER == 'true' &&  steps.build_project.status == 'success'}}
+      if: ${{ inputs.INCREMENT_VERSION_NUMBER == 'true' &&  steps.build_project.outcome == 'success'}}
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
       with:
