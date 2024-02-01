@@ -14,11 +14,6 @@ outputs: {}
 runs:
   using: 'composite'
   steps:
-    - uses: Lithial/github_actions/.github/actions/setup
-      name: Setup Project
-      with:
-        node-version: NODE_VERSION
-
     - name: Extract branch name
       shell: bash
       run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
