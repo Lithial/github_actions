@@ -21,9 +21,14 @@ runs:
       run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
       id: extract_branch
 
+    - name: Build Project
+      id: build_project
+      shell: bash
+      run: yarn build
+
     - name: 'Automated Version Bump'
       uses: 'phips28/gh-action-bump-version@master'
-      if: ${{ inputs.INCREMENT_VERSION_NUMBER == 'true' }}
+      if: ${{ inputs.INCREMENT_VERSION_NUMBER == 'true' &&  steps.build_project.status == 'success'}}
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
       with:
@@ -41,4 +46,3 @@ runs:
         branch: ${{ steps.extract_branch.outputs.branch }}
         force: true
         message: 'Version increased by Github Actions'
-
