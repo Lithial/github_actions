@@ -42,7 +42,3 @@ runs:
         force: true
         message: 'Version increased by Github Actions'
 
-    - name: Build Project
-      shell: bash
-      run: yarn build
-
