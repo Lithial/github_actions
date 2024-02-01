@@ -40,4 +40,4 @@ runs:
         github_token: ${{ inputs.GITHUB_TOKEN }}
         branch: ${{ steps.extract_branch.outputs.branch }}
         force: true
-        message: 'Version increased by Github Actions'
+        message: 'Version increased by Github Actions [skip ci]'
